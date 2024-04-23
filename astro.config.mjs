@@ -30,57 +30,38 @@ export default defineConfig({
         defaultLocale: "en", // All urls that don't contain `fr` after `https://screwfast.uk/` will be treated as default locale, i.e. `en`
         locales: {
           en: "en", // The `defaultLocale` value must present in `locales` keys
-          fr: "fr",
         },
       },
     }),
     starlight({
-      title: "ScrewFast Docs",
+      title: "Karl's homelab",
       defaultLocale: "root",
       locales: {
         root: {
           label: "English",
           lang: "en",
         },
-        de: { label: "Deutsch", lang: "de" },
-        es: { label: "Español", lang: "es" },
-        fa: { label: "Persian", lang: "fa", dir: "rtl" },
-        fr: { label: "Français", lang: "fr" },
-        ja: { label: "日本語", lang: "ja" },
-        "zh-cn": { label: "简体中文", lang: "zh-CN" },
       },
       // https://starlight.astro.build/guides/sidebar/
       sidebar: [
         {
           label: "Quick Start Guides",
-          translations: {
-            de: "Schnellstartanleitungen",
-            es: "Guías de Inicio Rápido",
-            fa: "راهنمای شروع سریع",
-            fr: "Guides de Démarrage Rapide",
-            ja: "クイックスタートガイド",
-            "zh-cn": "快速入门指南",
-          },
           autogenerate: { directory: "guides" },
         },
         {
-          label: "Tools & Equipment",
+          label: "Architecture",
           items: [
-            { label: "Tool Guides", link: "tools/tool-guides/" },
-            { label: "Equipment Care", link: "tools/equipment-care/" },
+            { label: "High level Architecture", link: "architecture/high-level-architecture/" },
+            // { label: "Equipment Care", link: "architecture/equipment-care/" },
           ],
         },
         {
-          label: "Construction Services",
-          autogenerate: { directory: "construction" },
-        },
-        {
-          label: "Advanced Topics",
-          autogenerate: { directory: "advanced" },
+          label: "IAC (infrastructure as code)",
+          autogenerate: { directory: "iac" },
         },
       ],
       social: {
-        github: "https://github.com/mearashadowfax/ScrewFast",
+        github: "https://github.com/karlazzampersonal/homelab/tree/main",
       },
       disable404Route: true,
       customCss: ["./src/styles/starlight.css"],
