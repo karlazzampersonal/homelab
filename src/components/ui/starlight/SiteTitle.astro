@@ -1,5 +1,9 @@
 ---
+import mainLogo from "@images/starlight/screwfast_logo_dark.svg?raw";
+import docsLogo from "@images/starlight/docs_logo.svg?raw";
+import type { Props } from "@astrojs/starlight/props";
 import NavLink from "../links/NavLink.astro";
+
 
 const main = "/";
 const locale = Astro.props.locale ? Astro.props.locale + "/" : "";
@@ -7,6 +11,8 @@ const docs = "/" + locale + "welcome-to-docs/";
 ---
 
 <div class="mt-5 flex flex-col gap-x-0 gap-y-4 md:mt-0 md:flex-row md:items-center md:justify-end md:gap-x-4 lg:gap-x-7 md:gap-y-0 md:ps-7">
+  <!--<a class="main-logo" href={main} set:html={mainLogo} aria-label="ScrewFast" />-->
+  <!--<a class="docs-logo" href={docs} set:html={docsLogo} aria-label="ScrewFast Docs" />-->
   <NavLink url="/blog" name="Blog"/>
   <NavLink url="/welcome-to-docs" name="Documentation"/>
 </div>

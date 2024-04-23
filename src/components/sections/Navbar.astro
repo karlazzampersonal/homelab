@@ -2,10 +2,15 @@
 //Import relevant dependencies
 import ThemeIcon from "@components/ThemeIcon.astro";
 import NavLink from "@components/ui/links/NavLink.astro";
+import Authentication from "./Authentication.astro";
 import enStrings from "@utils/navigation.ts";
+import frStrings from "@utils/fr/navigation.ts";
+import BrandLogo from "@components/BrandLogo.astro";
+import LanguagePicker from "@components/ui/LanguagePicker.astro";
 
 // Select the correct translation based on the page's lang prop:
-const strings = enStrings;
+const strings = Astro.currentLocale === "fr" ? frStrings : enStrings;
+const homeUrl = Astro.currentLocale === "fr" ? "/fr" : "/";
 ---
 
 <!-- Main header component -->
@@ -18,7 +23,7 @@ const strings = enStrings;
     aria-label="Global"
   >
     <div class="flex items-center justify-between">
-      <!--&lt;!&ndash; Brand logo &ndash;&gt;-->
+      <!-- Brand logo -->
       <!--<a-->
       <!--  class="flex-none rounded-lg text-xl font-bold outline-none ring-zinc-500 focus-visible:ring dark:ring-zinc-200 dark:focus:outline-none"-->
       <!--  href={homeUrl}-->
@@ -85,6 +90,7 @@ const strings = enStrings;
           <NavLink url={link.url} name={link.name} />
         ))}
 
+        <!--<Authentication />-->
         <!--<LanguagePicker />-->
         <!-- ThemeIcon component specifically for larger screens -->
         <span class="hidden md:inline-block">
