@@ -1,13 +1,50 @@
 ---
-title: Ansible playbook for orchestrating Debian
-description: Guide on IAC for setting up the Debian OS config
+title: Ansible playbook for orchestrating Ubuntu
+description: Guide on IAC for setting up the Ubuntu OS config
 sidebar:
-  label: Ansible playbook for Debian
+  label: Ansible playbook for Ubuntu
   order: 1
 ---
 
 import {
-    Card
+    Steps
 } from "@astrojs/starlight/components";
 
-TBD
+## Installing ansible
+Let's start by installing ansible on the Mac, along with some linting tools
+
+```shell
+pip3 install ansible yamllint ansible-lint
+```
+
+## Run security playbook
+Let's run our first playbook that will harden our SSH config, install fail2ban, and configure auto-updates
+
+<Steps>
+1. First [clone the repo](https://github.com/karlazzampersonal/ansible-security) containing the security playbook.
+
+2. If you don't have an `inventory/hosts.ini` file setup, you can replace the contents of the encrypted one, file template should look like this:
+    ```yml
+
+    [servers]
+    xxx.yyy.z.aa
+    xxx.yyy.z.bb
+    xxx.yyy.z.cc
+
+    # variables for all the servers
+    [servers:vars]
+    ansible_ssh_user=myusername
+    ansible_ssh_private_key_file=~/.ssh/id_rsa
+    ansible_port=22
+    ```
+    
+    Then you can encrypt the file:
+    ```sh
+    ansible-vault encrypt inventory/hosts.ini
+    ```
+
+    3. Run the playbook.
+    ```shell
+    ansible-playbook playbook.yml -i inventory/hosts.ini -b -K --ask-vault-pass
+    ```
+</Steps>

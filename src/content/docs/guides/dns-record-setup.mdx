@@ -1,0 +1,36 @@
+---
+title: Set up DNS records
+description: Configure DNS records for your domain name to point to the public IP address
+sidebar:
+  label: Set up DNS records
+  order: 3
+---
+
+import {
+  Steps,
+  Aside,
+} from "@astrojs/starlight/components";
+
+We bought a domain name from porkbun (domain name registrar). The eventual goal is to have some public facing services inside our kubernetes cluster.
+To do that, we first need to configure DNS records for our domain name.
+
+This must be done for multiple reasons:
+
+<Steps>
+    1. **Domain Resolution**:  DNS records enable domain name resolution, translating human-readable domain names (like example.com) into IP addresses that computers use to communicate over the internet.
+    2. **Service Accessibility**: By setting up DNS records correctly, you ensure that public facing services hosted in the homelab can be accessed using the domain name instead of the public IP address.
+</Steps>
+
+### DNS records we are adding
+
+- **A Record**: Maps your domain name to an IPv4 address.
+- **CNAME Record**: Creates an alias for your domain. Using this for subdomains.
+
+## Add DNS records
+
+<Steps>
+1. Find your ip address, you can get it by going to `google.com` and typing "What is my IP"
+2. Go to [porkbun domain management page](https://porkbun.com/account/domainsSpeedy) and click the edit icon next to `DNS Records`
+3. Add an A record with TTL of 600, set host text box to `www` and set answer text box to your ip address.
+4. Add an A record with TTL of 600,  host text box should be empty and set answer text box to your ip address.
+</Steps>

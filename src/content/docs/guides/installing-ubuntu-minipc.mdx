@@ -1,0 +1,94 @@
+---
+title: Install Ubuntu
+description: Installing the Ubuntu OS iso file in the Mini PC
+sidebar:
+  label: Install Ubuntu and setup key-based SSH
+  order: 2
+---
+import {
+  Card,
+  CardGrid,
+  LinkCard,
+  Steps,
+  Aside,
+} from "@astrojs/starlight/components";
+
+<CardGrid>
+    <Card title="Scope and Objectives">
+        - Install Ubuntu OS onto each Mini PC.
+        - Configure SSH so we can SSH into each machine from the Mac via key-based method.
+    </Card>
+    <Card title="Tools and Equipment">
+        - [3 Beelink Mini S12 Pro Mini PC, 12th Gen Intel-N100, 16GB RAM DDR4, 500GB SSD](https://www.amazon.com/dp/B0BVFS94J5?ref=ppx_yo2ov_dt_b_product_details&th=1)
+        - [1 USB 3.1 Flash Drive containing the Ubuntu ISO file](https://www.amazon.com/dp/B0B6148YKN?psc=1&ref=ppx_yo2ov_dt_b_product_details)
+    </Card>
+</CardGrid>
+
+
+## Instructions
+
+<Steps>
+1. Plug the USB stick into the minipc.
+2. Plug in the HDMI cable into the HDMI port and hook it up to a monitor. Plug in keyboard and mouse via usb.
+3. Press `F7` repetitively at startup to load up bios. Click on boot from USB drive in menu options.
+4. Select `Install Ubuntu Server` from option menu.
+5. Click done all the way to network screen, modify the 2nd network and connect to the wifi network. Connecting to Wifi in this step is optional, wifi can be configured later.
+6. Skip proxy
+7. Use default mirror address.
+8. For selecting disk, use the entire disk, hit done through all options.
+9. For selecting profile:
+    ```txt
+    Your name: Karl Azzam
+    Your server's name: hl-{number}-{model}. i.e. `hl-1-s12pro`
+    Pick a username: kazzam
+    ```
+10. Select yes to install OpenSSH server
+11. For feature snaps, install docker.
+12. Reboot once it's installed
+13. If you didn't install the Wifi in step 5, you can configure the wifi configuration file now.
+    ```sh
+    sudo vi /etc/netplan/50-cloud-init.yaml
+    ```
+    Pass in your actual wifi name and password in the yaml below:
+    ```yaml
+    network:
+        ethernets:
+            enp1s0:
+                dhcp4: true
+        version: 2
+        wifis:
+            wlo1:
+                access-points:
+                    MYWIFI-5G:
+                        password: mypassword
+                dhcp4: true
+    ```
+    Finally, run apply and you should be connected to wifi now
+    ```sh
+    sudo netplan apply
+    ```
+14. Update apt and then install a few useful tools. Neofetch displays useful system info, net-tools is used for ifconfig to fetch the ip address.
+    ```sh
+    sudo apt update
+    sudo apt install neofetch net-tools
+    ```
+15. Run ifconfig to get the ip address of the machine (the one listed under wlo1)
+    ```sh
+    ifconfig
+    ```
+16. On your host machine (mac), generate the key pair  we will use for ssh'ing into each server (one keypair for all 3 machines). Let the default location be `~/.ssh/id_rsa` and don't specify a passphrase.
+    ```sh
+    ssh-keygen -t rsa -b 2048
+    ```
+17. On your host machine (mac), run the ssh-copy-id command to copy the public key (id_rsa.pub) to each server. Replace username and ip_address with the appropriate values.
+    ```sh
+    ssh-copy-id username@ip_address
+    ```
+18. Now we should be able to SSH with key auth instead of password auth
+    ```sh
+    ssh username@ip_address
+    ```
+    <Aside>When you run ssh username@ip_address, SSH automatically attempts to authenticate using the default SSH key pair located in the ~/.ssh/ directory on your local machine. By default, SSH looks for a private key file named id_rsa (for RSA keys) in the ~/.ssh/ directory and tries to use it for authentication.</Aside>
+</Steps>
+
+
