@@ -8,7 +8,7 @@ import starlight from "@astrojs/starlight";
 // https://astro.build/config
 export default defineConfig({
   // https://docs.astro.build/en/guides/images/#authorizing-remote-images
-  site: "https://screwfast.uk",
+  site: "https://homelab-coral.vercel.app/",
   image: {
     domains: ["images.unsplash.com"],
   },
@@ -71,20 +71,6 @@ export default defineConfig({
         Head: "./src/components/ui/starlight/Head.astro",
       },
       head: [
-        {
-          tag: "meta",
-          attrs: {
-            property: "og:image",
-            content: "https://screwfast.uk" + "/social.webp",
-          },
-        },
-        {
-          tag: "meta",
-          attrs: {
-            property: "twitter:image",
-            content: "https://screwfast.uk" + "/social.webp",
-          },
-        },
       ],
     }),
     compressor({
