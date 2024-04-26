@@ -1,6 +1,6 @@
 ---
 title: "Why I'm building a homelab"
-description: "Why I'm building a homelab"
+description: "Why not?"
 author: "Karl"
 authorImage: "@/images/blog/karl.jpeg"
 authorImageAlt: "Avatar Description"
