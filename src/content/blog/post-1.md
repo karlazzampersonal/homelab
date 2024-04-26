@@ -4,10 +4,10 @@ description: "Why I'm building a homelab"
 author: "Karl"
 authorImage: "@/images/blog/karl.jpeg"
 authorImageAlt: "Avatar Description"
-pubDate: 2024-04-25
+pubDate: 2024-04-24
 cardImage: "@/images/blog/homelab2.jpeg"
 cardImageAlt: "Homelab image"
-readTime: 4
+readTime: 2
 tags: ["homelab", "hobby" ]
 contents: [
         "As a backend SWE, I haven't always had the scope and responsibility (and bandwidth) to handle the ops side of things in my career. I usually learn ops and networking in my spare time with hobby projects on AWS. However, AWS doesn't offer a free tier for AWS EKS so I've always deployed my hobby projects cheaply (< $5/ month) using AWS ECS and spot instances.",
