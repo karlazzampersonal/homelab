@@ -27,24 +27,72 @@ Let's run our first playbook that will harden our SSH config, install fail2ban, 
     ```yml
 
     [servers]
-    xxx.yyy.z.aa
-    xxx.yyy.z.bb
-    xxx.yyy.z.cc
+    192.168.1.1
+    192.168.1.2
+    192.168.1.3
 
     # variables for all the servers
     [servers:vars]
     ansible_ssh_user=myusername
     ansible_ssh_private_key_file=~/.ssh/id_rsa
-    ansible_port=22
+    ansible_port=34168
     ```
     
     Then you can encrypt the file:
     ```sh
     ansible-vault encrypt inventory/hosts.ini
     ```
-
-    3. Run the playbook.
+3. Run the playbook.
     ```shell
     ansible-playbook playbook.yml -i inventory/hosts.ini -b -K --ask-vault-pass
+    ```
+</Steps>
+
+## Run k3s playbook
+
+### Deploy k3s cluster
+Next, let's run our main playbook that will deploy our k3s cluster.
+
+<Steps>
+1. First [clone the repo](https://github.com/karlazzampersonal/ansible-k3s) containing the k3s playbook.
+2. If you don't have an `inventory/hosts.ini` file setup, you can replace the contents of the encrypted one, make sure you pass in the token. File template should look like this:
+    ```yml
+    [servers]
+    192.168.1.1
+    192.168.1.2
+    192.168.1.3
+
+    # variables for all the servers
+    [servers:vars]
+    ansible_ssh_user=myusername
+    ansible_ssh_private_key_file=~/.ssh/id_rsa
+    ansible_port=34168
+
+    # secret, make sure this file is in ansible vault to encrypt it
+    token=mytoken
+    ```
+
+    Then you can encrypt the file:
+    ```sh
+    ansible-vault encrypt inventory/hosts.ini
+    ```
+2. Run the playbook:
+    ```sh
+    ansible-playbook playbook/provision.yml -i inventory/hosts.ini -K --ask-vault-pass
+    ```
+3. To verify the k3s cluster is running via kubectl, ssh into the main controller node and run get pods
+    ```sh
+    ssh username@xxx.yyy.z.a
+    kubectl config use-context default
+    kubectl get nodes
+    ```
+</Steps>
+
+### Tear down k3s cluster
+<Steps>
+1. First [clone the repo](https://github.com/karlazzampersonal/ansible-k3s) containing the k3s playbook.
+2. Run the playbook:
+    ```sh
+    ansible-playbook playbook/destroy.yml -i inventory/hosts.ini -K --ask-vault-pass
     ```
 </Steps>
