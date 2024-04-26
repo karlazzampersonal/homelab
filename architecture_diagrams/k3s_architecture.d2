@@ -1,0 +1,55 @@
+title: {
+    label: High level K3s architecture
+    shape: text
+    near: top-center
+    style: {
+        font-size: 55
+    }
+}
+
+direction: right
+homelab: homelab {
+    style: {
+        fill: transparent
+        stroke-dash: 1
+    }
+
+    user: K3s user {
+        shape: circle
+        icon: https://icons.terrastruct.com/essentials%2F365-user.svg
+    }
+
+    k3s_servers: "K3s Servers" {
+
+        grid-columns: 1
+        server1: "Server node" {
+            etcd: Embedded etcd {
+                shape: cylinder
+            }
+        }
+        server2: "Server node" {
+            etcd: Embedded etcd {
+                shape: cylinder
+            }
+        }
+        server3: "Server node" {
+            etcd: Embedded etcd {
+                shape: cylinder
+            }
+        }
+
+    }
+
+    servicelb: ServiceLB/KubeVip/MetalLb (Control plane LB)
+
+    externallb: Cluster LB (External LB) {
+        icon: "https://icons.terrastruct.com/dev%2Fnginx.svg"
+    }
+
+
+    user -> servicelb: kubectl get pods
+    servicelb -> k3s_servers
+    k3s_servers -> externallb
+}
+
+
