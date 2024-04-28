@@ -40,16 +40,16 @@ homelab: homelab {
 
     }
 
-    servicelb: ServiceLB/KubeVip/MetalLb (Control plane LB)
+    controlPlaneLb: KubeVip(Control plane LB)
 
-    externallb: Cluster LB (External LB) {
-        icon: "https://icons.terrastruct.com/dev%2Fnginx.svg"
+    serviceLb: MetalLB (Service LB)  {
+
     }
 
 
-    user -> servicelb: kubectl get pods
-    servicelb -> k3s_servers
-    k3s_servers -> externallb
+    user -> controlPlaneLb: kubectl get pods
+    controlPlaneLb -> k3s_servers
+    k3s_servers -> serviceLb
 }
 
 

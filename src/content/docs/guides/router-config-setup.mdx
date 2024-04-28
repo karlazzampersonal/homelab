@@ -1,0 +1,54 @@
+---
+title: Set up Router to assign static ips and port forward http and https traffic
+description: Configure router steps
+sidebar:
+  label:  Set up Router config
+  order: 3
+---
+
+import {
+  Steps,
+  Aside,
+} from "@astrojs/starlight/components";
+import { Image } from 'astro:assets';
+import lan_setup_menu from '../../../images/docs/router-config-lan-setup.png';
+import address_reservation from '../../../images/docs/address_reservation.png';
+import address_reservation_filled_out from '../../../images/docs/address-reservation-filled-out.png';
+import port_forwarding_menu from '../../../images/docs/port-forwarding-menu.png';
+import port_forwarding_http from '../../../images/docs/port-forwarding-http.png';
+import port_forwarding_https from '../../../images/docs/port-forwarding-https.png';
+
+I have a Netgear Nighthawk router. I want to configure two things:
+
+
+<Steps>
+    1. **Static IPs for all Minipcs**: This is very important so that my minipcs (which have private ips) never change their ip address. So when I run an ansible playbook, I never have to worry about the ip addresses changing.
+    2. **Expose external traffic**: By setting up port forwarding rules on the route for ports 80 (HTTP) and 443 (HTTPS), I can host things publicly to the outside world.
+</Steps>
+
+### Making the ips static
+
+<Steps>
+1. Go to [router login page](http://www.routerlogin.net/start.htm)
+2. Click the `ADVANCED` tab. Under `Setup`, click on `LAN Setup`
+    <Image src={lan_setup_menu} alt="lan setup menu"/>
+3. Click `Add` under `Address Reservation`. This is where you can map your minipc's mac address to a static ip address.
+    <Image src={address_reservation} alt="address reservation"/>
+4. After adding all the addresses, it looks something like this:
+    <Image src={address_reservation_filled_out} alt="address reservation filled out"/>
+</Steps>
+
+## Port forwarding http and https
+
+Your service load balancer (i.e. ServiceLB, MetalLB) will give your external load balancer (i.e. ingress-nginx, traefik) an IP, that is what you would port forward. Once that is done, you control it with Ingress objects
+
+<Steps>
+1. Go to [router login page](http://www.routerlogin.net/)
+2. Click the `ADVANCED` tab. Under `Advanced Setup`, click on `Port forwarding/Port Triggering`
+    <Image src={port_forwarding_menu} alt="Port forwarding advanced setup menu"/>
+3. Make sure the radio button for `Port Forwarding` is selected. For HTTP, on the drop down for service name select `HTTP`. Change the address ip address to the external load balancer ip. Then click `Add`.
+    <Image src={port_forwarding_http} alt="Port forwarding http"/>
+4. For HTTPS, click `Add custom service`. Then the config should look like below. (Other than the ip address should be same as the one for HTTP above)
+    <Image src={port_forwarding_https} alt="Port forwarding https"/>
+</Steps>
+
